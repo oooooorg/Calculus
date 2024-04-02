@@ -17,7 +17,7 @@ import javafx.scene.control.Alert.AlertType;
 public class App extends Application {
 
     public double sqrt(double x) {
-        return 2 * x + 7;
+        return Math.pow(Math.E, -x);
     }
 
     double scaleSize = 1;
@@ -26,8 +26,8 @@ public class App extends Application {
     final int WIDTH = 1080;
     final int HEIGHT = 720;
     final int N = 10;
-    final double FROM = -100; 
-    final double TO = Math.PI * SIZE;
+    final double FROM = 0 * SIZE; 
+    final double TO = 2 * SIZE;
 
     public int sizeof(int x) {
         return String.valueOf(x).length();
@@ -57,6 +57,27 @@ public class App extends Application {
             }
         }
 
+        Operation operation = x -> sqrt(x[0]);
+
+        double fraction = ((TO - FROM) / N);
+        double sum = 0;
+
+        for (double i = FROM; i < TO; i += fraction) {
+            Rectangle figure = new Rectangle(
+                i + (double) WIDTH / 2, 
+                Math.min(HEIGHT / 2, -operation.execute((double) (i + (fraction / 2)) / SIZE) * SIZE + (double) HEIGHT / 2),
+                fraction,
+                Math.abs(operation.execute((double) (i + (fraction / 2)) / SIZE) * SIZE)
+            );
+            sum += (fraction / SIZE) * operation.execute((double) (i + (fraction / 2)) / SIZE);
+            figure.setFill(Color.AQUAMARINE);
+            figure.setStroke(Color.BLACK);
+            group.getChildren().add(
+                    figure
+            );
+        }
+        System.out.println(sum);
+
         for (int i = -WIDTH * SIZE / 2; i < WIDTH * SIZE / 2 - 1; i = i + SIZE) {
             if (-1 <= i / SIZE && i / SIZE <= 1 || (i / SIZE) % 5 == 0) {
                 Text text = new Text((double) WIDTH / 2 + i - (double) sizeof(i) * 2, (double) HEIGHT / 2 + 15, i / SIZE + "");
@@ -74,24 +95,6 @@ public class App extends Application {
                     group.getChildren().add(text);
                 }
             }
-        }
-
-        Operation operation = x -> sqrt(x[0]);
-
-        double fraction = ((TO - FROM) / N);
-
-        for (double i = FROM; i < TO; i += fraction) {
-            Rectangle figure = new Rectangle(
-                i + (double) WIDTH / 2, 
-                Math.min(HEIGHT / 2, -operation.execute((double) (i + fraction) / SIZE) * SIZE + (double) HEIGHT / 2),
-                fraction,
-                Math.abs(operation.execute((double) (i + fraction) / SIZE) * SIZE)
-            );
-            figure.setFill(Color.AQUAMARINE);
-            figure.setStroke(Color.BLACK);
-            group.getChildren().add(
-                    figure
-            );
         }
 
         for (double  i = FROM; i < TO; i++) {
