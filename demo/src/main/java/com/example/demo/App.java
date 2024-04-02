@@ -83,7 +83,7 @@ public class App extends Application {
         for (double i = FROM; i < TO; i += fraction) {
             Rectangle figure = new Rectangle(
                 i + (double) WIDTH / 2, 
-                -operation.execute((double) (i + fraction) / SIZE) * SIZE + (double) HEIGHT / 2,
+                Math.min(HEIGHT / 2, -operation.execute((double) (i + fraction) / SIZE) * SIZE + (double) HEIGHT / 2),
                 fraction,
                 Math.abs(operation.execute((double) (i + fraction) / SIZE) * SIZE)
             );
