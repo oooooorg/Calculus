@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,6 +25,9 @@ public class App extends Application {
     int SIZE = 20;
     final int WIDTH = 1080;
     final int HEIGHT = 720;
+    final int N = 10;
+    final double FROM = -100; 
+    final double TO = Math.PI * SIZE;
 
     public int sizeof(int x) {
         return String.valueOf(x).length();
@@ -74,7 +78,23 @@ public class App extends Application {
 
         Operation operation = x -> sqrt(x[0]);
 
-        for (int i = -WIDTH; i < WIDTH; i++) {
+        double fraction = ((TO - FROM) / N);
+
+        for (double i = FROM; i < TO; i += fraction) {
+            Rectangle figure = new Rectangle(
+                i + (double) WIDTH / 2, 
+                -operation.execute((double) (i + fraction) / SIZE) * SIZE + (double) HEIGHT / 2,
+                fraction,
+                Math.abs(operation.execute((double) (i + fraction) / SIZE) * SIZE)
+            );
+            figure.setFill(Color.AQUAMARINE);
+            figure.setStroke(Color.BLACK);
+            group.getChildren().add(
+                    figure
+            );
+        }
+
+        for (double  i = FROM; i < TO; i++) {
             Line figure = new Line(
                     i + (double) WIDTH / 2,
                     -operation.execute((double) i / SIZE) * SIZE + (double) HEIGHT / 2,
