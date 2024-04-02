@@ -22,12 +22,12 @@ public class App extends Application {
 
     double scaleSize = 1;
     int accuracy = 20;
-    int SIZE = 20;
-    final int WIDTH = 1080;
-    final int HEIGHT = 720;
+    int SIZE = 60;
+    final int WIDTH = 1920;
+    final int HEIGHT = 1080;
     final int N = 10;
     final double FROM = 0 * SIZE; 
-    final double TO = 2 * SIZE;
+    final double TO = 1 * SIZE;
 
     public int sizeof(int x) {
         return String.valueOf(x).length();
