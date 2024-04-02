@@ -16,7 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 public class App extends Application {
 
     public double sqrt(double x) {
-        return  2*x+7;
+        return 2 * x + 7;
     }
 
     double scaleSize = 1;
