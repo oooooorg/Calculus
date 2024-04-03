@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import java.util.Random;
+import java.util.Scanner;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -17,7 +20,7 @@ import javafx.scene.control.Alert.AlertType;
 public class App extends Application {
 
     public double sqrt(double x) {
-        return Math.pow(Math.E, -x);
+        return Math.pow(x, 3);
     }
 
     double scaleSize = 1;
@@ -25,16 +28,34 @@ public class App extends Application {
     int SIZE = 60;
     final int WIDTH = 1920;
     final int HEIGHT = 1080;
-    final int N = 10;
-    final double FROM = 0 * SIZE; 
-    final double TO = 1 * SIZE;
+    int N;
+    String TYPE;
+    final double FROM = -2 * SIZE; 
+    final double TO = 2 * SIZE;
+
+    public double frac(double x, double fraction) {
+        switch (TYPE) {
+            case "start":
+                return x;
+            case "middle":
+                return x + fraction / 2;
+            case "finish":
+                return x + fraction;
+            default: {
+                Random rnd = new Random();
+                return x + (rnd.nextDouble(fraction));
+            }
+        }
+    }
 
     public int sizeof(int x) {
         return String.valueOf(x).length();
     }
 
     public void start(Stage primaryStage) throws Exception {
-
+        Scanner scanner = new Scanner(System.in);
+        N = scanner.nextInt();
+        TYPE = scanner.next();
         Group group = new Group();
 
         for (int i = -WIDTH * SIZE / 2; i < WIDTH * SIZE / 2 - 1; i++) {
@@ -63,13 +84,14 @@ public class App extends Application {
         double sum = 0;
 
         for (double i = FROM; i < TO; i += fraction) {
+            double c = frac(i, fraction);
             Rectangle figure = new Rectangle(
                 i + (double) WIDTH / 2, 
-                Math.min(HEIGHT / 2, -operation.execute((double) (i + (fraction / 2)) / SIZE) * SIZE + (double) HEIGHT / 2),
+                Math.min(HEIGHT / 2, -operation.execute((double) c / SIZE) * SIZE + (double) HEIGHT / 2),
                 fraction,
-                Math.abs(operation.execute((double) (i + (fraction / 2)) / SIZE) * SIZE)
+                Math.abs(operation.execute((double) c / SIZE) * SIZE)
             );
-            sum += (fraction / SIZE) * operation.execute((double) (i + (fraction / 2)) / SIZE);
+            sum += (fraction / SIZE) * operation.execute((double) c / SIZE);
             figure.setFill(Color.AQUAMARINE);
             figure.setStroke(Color.BLACK);
             group.getChildren().add(
